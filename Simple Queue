@@ -1,0 +1,103 @@
+
+/*PROBLEM STATEMENT: 
+Coffee Shop Line (Simple Queue):
+Arrival: Customers arrive at the coffee shop and stand in line. Order Processing: The first customer in line gets their order taken, and the barista starts making the coffee.Serving: Once the first customer is served, they leave the queue, and the next customer in line moves forward to be served. Write a program to implement a simple queue
+*/
+#include <iostream>
+using namespace std;
+
+class Queue {
+    int arr[5];  
+    int rear;
+    int front;
+    const int SIZE = 5;
+public:
+    Queue() {
+        rear = -1;
+        front = -1;
+    }
+    bool isfull() {
+        if (rear == SIZE - 1)
+            return true;
+        else
+            return false;
+    }
+    bool isempty() {
+        if (front == -1 || front > rear)
+            return true;
+        else
+            return false;
+    }
+    void enq(int data) {
+        if (isfull()) {
+            cout << "Queue is full! Cannot add more customers." << endl;
+        } else {
+            if (front == -1)
+                front = 0;
+            rear++;
+            arr[rear] = data;
+            cout << "Customer " << data << " joined the coffee line." << endl;
+        }
+    }
+    void deq() {
+        if (isempty()) {
+            cout << "Queue is empty! No customers to serve." << endl;
+        } else {
+            cout << "Customer " << arr[front] << " has been served." << endl;
+            front++;
+            if (front > rear)
+                front = rear = -1;
+        }
+    }
+    void display() {
+        if (isempty()) {
+            cout << "No customers waiting in line." << endl;
+        } else {
+            cout << "Current Queue: ";
+            for (int i = front; i <= rear; i++) {
+                cout << arr[i];
+                if (i != rear)
+                    cout << " <- ";
+            }
+            cout << endl;
+        }
+    }
+};
+int main() {
+    Queue q;
+    int choice, customer;
+
+    cout << "=== Coffee Shop Queue System ===" << endl;
+
+    do {
+        cout << "\n1. Add Customer (Enqueue)"
+             << "\n2. Serve Customer (Dequeue)"
+             << "\n3. Display Queue"
+             << "\n4. Exit"
+             << "\nEnter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "Enter customer number: ";
+                cin >> customer;
+                q.enq(customer);
+                break;
+            case 2:
+                q.deq();
+                break;
+            case 3:
+                q.display();
+                break;
+            case 4:
+                cout << "Exiting Coffee Shop Queue System..." << endl;
+                break;
+            default:
+                cout << "Invalid choice! Try again." << endl;
+        }
+    } while (choice != 4);
+
+    return 0;
+}
+
+
