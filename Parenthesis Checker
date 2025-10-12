@@ -1,0 +1,115 @@
+/*Parenthesis Checker:
+Write a program using a  stack  for push, pop, peek, and isEmpty operations. Write isBalanced() Function that Iterates through the input expression, Pushes opening brackets onto the stack. For closing brackets, it checks the top of the stack for a matching opening bracket. Ensures that all opening brackets are matched by the end of the traversal. Main Function: Accepts a string expression from the user. Uses isBalanced() to determine if the parentheses in the expression are balanced.
+*/
+#include<iostream>
+using namespace std;
+
+class pc {
+private:
+    int top;
+    char stack[50]; 
+public:
+    pc() {
+        top = -1;
+    }
+    bool isfull();
+    bool isempty();
+    void push(char x);
+    char pop();
+    char peek();
+    void display();
+};
+
+char pc::peek() {
+    if (isempty()) {
+        cout << "Stack is empty\n";
+        return -1;
+    }
+    return stack[top];
+}
+
+bool pc::isfull() {
+    if (top == 49) {   
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool pc::isempty() {
+    if (top == -1) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+void pc::push(char x) {
+    if (isfull() == true) {
+        cout << "stack is full";
+    } else {
+        top++;
+        stack[top] = x;
+    }
+}
+
+char pc::pop() {
+    if (isempty() == true) {
+        cout << "stack is empty";
+        return -1;
+    } else {
+        char x = stack[top];
+        top--;
+        return x;
+    }
+}
+
+void pc::display() {
+    if (isempty()) {
+        cout << "stack is empty";
+    } else {
+        cout << "stack elements:";
+        for (int i = 0; i <= top; i++) {
+            cout << stack[i] << " ";
+        }
+        cout << endl;
+    }
+}
+
+int main() {
+    pc c1;
+    cout << "Enter expression: ";
+    string exp;
+    cin >> exp;
+
+    for (int i = 0; i < exp.length(); i++) {
+        if (exp[i] == '{' || exp[i] == '[' || exp[i] == '(') {
+            c1.push(exp[i]);
+        } 
+        else if (exp[i] == '}' || exp[i] == ']' || exp[i] == ')') {
+            if (c1.isempty()) {   
+                cout << "Not well parenthesized!\n";
+                return 0;
+            }
+            char k = c1.peek();   
+            if ((exp[i] == '}' && k == '{') ||
+                (exp[i] == ']' && k == '[') ||
+                (exp[i] == ')' && k == '(')) {
+                c1.pop();
+            } else {
+                cout << "Not well parenthesized!\n";
+                return 0;
+            }
+        }
+    }
+
+    cout << "Entered expression: " << exp << endl;
+    if (c1.isempty() == true) {
+        cout << "Well Parenthesized!\n";
+    } else {
+        cout << "Not well parenthesized!\n";
+    }
+
+    return 0;
+}
+
